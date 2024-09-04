@@ -38,6 +38,7 @@ export const ExpensesContainer: React.FC = () => {
         }
         fetchExpenses();
     }, []);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     return (<>
     
@@ -48,20 +49,26 @@ export const ExpensesContainer: React.FC = () => {
             <th>Merchant</th>
             <th>Amount</th>
             <th>Category</th>
+            <th>Description</th>
+            <th>Status</th>
         </thead>
         <tbody>
             {expenses.map((expense: IExpense): React.ReactNode => {
+                const splitDate = expense.date.split('-');
+                const day = splitDate[2].slice(0,2);
+                const month = months[Number(splitDate[1])-1];
+                const formattedDate = `${month} ${day}`;
                 return (
                     <tr key={expense.id}>
-                    <td>{expense.date}</td>
+                    <td>{formattedDate}</td>
                     <td>{expense.merchant}</td>
                     <td>{expense.amount}</td>
                     <td>{expense.category}</td>
+                    <td>{expense.description}</td>
+                    <td>{expense.status}</td>
                 </tr>
                 )
             })}
-
-
     
         </tbody>
     </table>
