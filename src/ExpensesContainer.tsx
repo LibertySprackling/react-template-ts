@@ -11,12 +11,8 @@ export interface IExpense {
     status: string;
 }
 
-interface IExpenses {
-    expense: IExpense
-}
-
 export const ExpensesContainer: React.FC = () => {
-    const [expenses, setExpenses] = React.useState<IExpenses[]>([]);
+    const [expenses, setExpenses] = React.useState<IExpense[]>([]);
 
     React.useEffect(() => {
         const fetchExpenses = async () => {
@@ -28,7 +24,7 @@ export const ExpensesContainer: React.FC = () => {
                             Username: "liberty.sprackling"   
                         }
                     })
-                const resData: IExpenses[] = res.data;
+                const resData: IExpense[] = res.data;
                 setExpenses(resData);
             }
             catch (error) {
@@ -41,8 +37,7 @@ export const ExpensesContainer: React.FC = () => {
             }
         }
         fetchExpenses();
-    }, [])
-
+    }, []);
 
     return (<>
     
@@ -55,9 +50,19 @@ export const ExpensesContainer: React.FC = () => {
             <th>Category</th>
         </thead>
         <tbody>
-            {expenses.map((item) => (
-                <tr>{item.date}</tr>
-            ))}
+            {expenses.map((expense: IExpense): React.ReactNode => {
+                return (
+                    <tr key={expense.id}>
+                    <td>{expense.date}</td>
+                    <td>{expense.merchant}</td>
+                    <td>{expense.amount}</td>
+                    <td>{expense.category}</td>
+                </tr>
+                )
+            })}
+
+
+    
         </tbody>
     </table>
     </>
